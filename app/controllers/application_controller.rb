@@ -4,7 +4,11 @@ class ApplicationController < ActionController::Base
     before_filter do
       @user = User.find_by(email: session["user"])
       throw(:abort) unless @user && @user.valid?
-    end   
+    end
+  end
+
+  def startapp
+    # does nothing will just load reactapp (see template and js)
   end
 
 end

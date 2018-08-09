@@ -57,6 +57,7 @@ module.exports = function (environment = "development") {
                 path.join(__dirname, '../app/assets/javascripts/'),
                 "node_modules/"
             ],
+            extensions: ['.js', '.jsx'],
         },
 
         module: {
