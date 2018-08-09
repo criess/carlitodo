@@ -37,11 +37,11 @@ module.exports = function (environment = "development") {
     }[environment] || environment;
 
 
-    let webpackPublicPath = '/assets/checkout/';
+    let webpackPublicPath = '/assets/';
 
     const config = {
         entry: {
-            application: ['babel-polyfill', 'application'],
+            bundle: ['babel-polyfill', 'application'],
         },
 
         output: {

@@ -59,7 +59,7 @@ const imageLoader = { // load static assets like fonts, png, and resolve path ..
 module.exports = function (environment = "development") {
     return {
         entry: { // define multiple entry points for css fils if you like multiple css files
-            'application': path.join(__dirname, '../app/assets/stylesheets/application.scss'),
+            bundle: path.join(__dirname, '../app/assets/stylesheets/application.scss'),
         },
 
         output: {

@@ -29,3 +29,8 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+
+# ignored bundled assets from webpack
+/app/assets/stylesheets/bundle.css
+/app/assets/javascripts/bundle.js
+/app/assets/javascripts/common.js
