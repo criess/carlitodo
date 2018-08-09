@@ -28,10 +28,8 @@ class TodosController < ApplicationController
 
     respond_to do |format|
       if @todo.save
-        format.html { redirect_to @todo, notice: 'Todo was successfully created.' }
         format.json { render :show, status: :created, location: @todo }
       else
-        format.html { render :new }
         format.json { render json: @todo.errors, status: :unprocessable_entity }
       end
     end
@@ -42,10 +40,8 @@ class TodosController < ApplicationController
   def update
     respond_to do |format|
       if @todo.update(todo_params)
-        format.html { redirect_to @todo, notice: 'Todo was successfully updated.' }
         format.json { render :show, status: :ok, location: @todo }
       else
-        format.html { render :edit }
         format.json { render json: @todo.errors, status: :unprocessable_entity }
       end
     end
@@ -56,7 +52,6 @@ class TodosController < ApplicationController
   def destroy
     @todo.destroy
     respond_to do |format|
-      format.html { redirect_to todos_url, notice: 'Todo was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -69,6 +64,6 @@ class TodosController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def todo_params
-      params.require(:todo).permit(:name, :created_by, :updated_by)
+      params.require(:todo).permit(:name, :created_by, :updated_by, :state, :due_date)
     end
 end
