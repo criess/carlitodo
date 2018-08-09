@@ -12,4 +12,4 @@ Very simple todo app that isn't capable of much right now
 
 written by Christop Rieß <c.riess.dev@googlemail.com>
 
-released under MKT License (see LICENSE file for details)
+released under MIT License (see LICENSE file for details)
