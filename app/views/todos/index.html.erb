@@ -8,6 +8,8 @@
       <th>Name</th>
       <th>Created by</th>
       <th>Updated by</th>
+      <th>State</th>
+      <th>Due date</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -18,6 +20,8 @@
         <td><%= todo.name %></td>
         <td><%= todo.created_by %></td>
         <td><%= todo.updated_by %></td>
+        <td><%= todo.state %></td>
+        <td><%= todo.due_date %></td>
         <td><%= link_to 'Show', todo %></td>
         <td><%= link_to 'Edit', edit_todo_path(todo) %></td>
         <td><%= link_to 'Destroy', todo, method: :delete, data: { confirm: 'Are you sure?' } %></td>
