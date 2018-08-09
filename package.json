@@ -4,6 +4,7 @@
   "description": "Simple react frontend for carlitodo",
   "main": "index.js",
   "dependencies": {
+    "growl": "^1.10.5",
     "lodash": "^4.17.5",
     "moment": "^2.15.1",
     "react": "^16.4.0",
