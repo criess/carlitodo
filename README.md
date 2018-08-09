@@ -1,24 +1,15 @@
-# README
+# CarlITodo
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Very simple todo app that isn't capable of much right now
 
-Things you may want to cover:
+## Install
 
-* Ruby version
+## Demo
 
-* System dependencies
+## Issues
 
-* Configuration
+## Author / License
 
-* Database creation
+written by Christop Rieß <c.riess.dev@googlemail.com>
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+released under MKT License (see LICENSE file for details)
