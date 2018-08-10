@@ -3,7 +3,7 @@ import Login from 'screens/login';
 import Project from 'screens/project';
 import Todo from 'screens/todo';
 import User from 'screens/user';
-
+import Container from 'muicss/lib/react/container';
 
 class Main extends Component {
 
@@ -26,36 +26,42 @@ class Main extends Component {
         } = this.state;
         switch (mask) {
             case 'login':
-                return <Login
+                return this.wrapWithContainer(<Login
                     success={() => this.setState({mask: 'project'})}
                     setLogin={(id) => this.setState({login: id})}
-                />;
+                />);
             case 'project':
-                return <Project
+                return this.wrapWithContainer(<Project
                     login={login}
                     currentProject={currentProject}
                     selectProject={(id) => this.setState({currentProject: id})}
                     selectTodo={(id) => this.setState({mask: 'todo', currentTodo: id})}
-                />;
+                />);
             case 'todo':
-                return <Todo
+                return this.wrapWithContainer(<Todo
                     login={login}
                     currentProject={currentProject}
                     currentTodo={currentTodo}
                     selectProject={(id) => this.setState({currentProject: id})}
                     selectTodo={(id) => this.setState({mask: 'todo', currentTodo: id})}
-                />;
+                />);
             case 'user':
-                return <User
+                return this.wrapWithContainer(<User
                     login={login}
                     currentProject={currentProject}
                     currentTodo={currentTodo}
                     selectProject={(id) => this.setState({currentProject: id})}
                     selectTodo={(id) => this.setState({mask: 'todo', currentTodo: id})}
-                />;
+                />);
             default:
-                return <span>error: unknown mask; value: `{mask}`</span>;
+                return this.wrapWithContainer(<span>error: unknown mask; value: `{mask}`</span>);
        }
+    }
+
+    wrapWithContainer(node) {
+        return <Container>
+                {node}
+            </Container>;
     }
 
 }

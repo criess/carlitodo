@@ -1,8 +1,8 @@
 class ApplicationController < ActionController::Base
 
   def self.has_auth
-    before_filter do
-      @user = User.find_by(email: session["user"])
+    before_action do
+      @user = User.find_by(email: session["user"]["email"])
       throw(:abort) unless @user && @user.valid?
     end
   end

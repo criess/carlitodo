@@ -1,22 +1,41 @@
 class SessionController < ApplicationController
 
+  skip_before_action :verify_authenticity_token
+
   MAX_SESSION = 60.minutes
 
   def login
-    user = User.find_by(email: email_param)
-    if user.authenticate(password_param)
-      session["user"] = user.email
+    user = User.find_by(email: email_param[:email])
+    if User === user && user.authenticate(password_param[:password])
+      session["user"] = user
       user.lastlogin = Time.now
       user.save!
-      format.json { render json: { action: 'logged in'} }
+      respond_to do |format|
+        format.json { render json: { action: 'logged in'} }
+      end
     else
-      format.json { render json: { action: 'not logged in' }, status: 403 }
+      respond_to do |format|
+        format.json { render json: { action: 'not logged in' }, status: 403 }
+      end
     end
   end
 
   def logout
-    session.delete :user_email
-    format.json { render json: { action: 'logged out' } }
+    session.delete "user"
+    respond_to do |format|
+      format.json { render json: { action: 'logged out' } }
+    end
+  end
+
+  def loggedin
+    respond_to do |format|
+      format.json {
+        render json: {
+          action: session["user"]["id"] ? 'logged in' : 'logged out'
+        },
+        status: session["user"]["id"] ? 200 : 403
+      }
+    end
   end
 
   private

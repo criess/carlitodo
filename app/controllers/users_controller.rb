@@ -1,34 +1,16 @@
 class UsersController < ApplicationController
   # before_action :set_user, only: [:show, :edit, :update, :destroy]
 
-  # GET /users
-  # GET /users.json
-  def index
-    # @users = User.all
-  end
+  skip_before_action :verify_authenticity_token
 
-  # GET /users/1
-  # GET /users/1.json
-  def show
-  end
-
-  # GET /users/new
-  def new
-    @user = User.new
-  end
-
-  # GET /users/1/edit
-  def edit
-  end
-
-  # POST /users
   # POST /users.json
   def create
     @user = User.new(user_params)
 
     respond_to do |format|
       if @user.save
-        format.json { render :show, status: :created, location: @user }
+        session["user"] = @user
+        format.json { render json: { status: :created, user: @user.attributes.except("passsword_digest", "id") }  }
       else
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
@@ -37,10 +19,10 @@ class UsersController < ApplicationController
 
   # PATCH/PUT /users/1.json
   def update
-    if user_params[:email] === session["user"]
+    if user_params[:email].downcase === session["user"]["email"]
       respond_to do |format|
         if @user.update(user_params)
-          format.json { render :show, status: :ok, location: @user }
+          format.json { render json: { status: :ok, user: @user.attributes.except("passsword_digest", "id") }  }
         else
           format.json { render json: @user.errors, status: :unprocessable_entity }
         end
@@ -48,14 +30,6 @@ class UsersController < ApplicationController
     else
       format.json { render json: 'action not allowed', status: 403 }
     end
-  end
-
-  # DELETE /users/1.json
-  def destroy
-    #@user.destroy
-    #respond_to do |format|
-    #  format.json { head :no_content }
-    #end
   end
 
   private
