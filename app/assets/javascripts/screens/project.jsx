@@ -11,7 +11,7 @@ class Project extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            inEditing null,
+            inEditing: null,
             id: null,
             name: null,
             projects: [],
@@ -57,7 +57,7 @@ class Project extends Component {
                 >Save</Button>
                 <Button
                     onClick={
-                        (e) => this.setState({inEditing false, id: null, name: null})
+                        (e) => this.setState({inEditing: false, id: null, name: null})
                     }
                 >Abort</Button>
             </Form> :
@@ -68,7 +68,7 @@ class Project extends Component {
                     <Col sm="6">
                         <Button
                             color="primary"
-                            onClick={(e) => this.setState({inEditing true})}
+                            onClick={(e) => this.setState({inEditing: true})}
                         >create project
                         </Button>
                     </Col>
@@ -84,7 +84,7 @@ class Project extends Component {
                             <span className="project-overview-field-options">
                                 <Button
                                     color="primary"
-                                    onClick={(e) => this.setState({inEditing true, id: project.id, name: project.name})}
+                                    onClick={(e) => this.setState({inEditing: true, id: project.id, name: project.name})}
                                 >edit project
                                 </Button>
                                 <Button
@@ -125,7 +125,7 @@ class Project extends Component {
         const xhr = new XMLHttpRequest();
         xhr.responseType = 'json';
         xhr.addEventListener('load',  function() {
-            cmp.setState({inEditing false, id: null, name: null});
+            cmp.setState({inEditing: false, id: null, name: null});
         });
         xhr.addEventListener('error', function() {
             console.log(xhr.response);
