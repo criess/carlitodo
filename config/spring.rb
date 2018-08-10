@@ -1,3 +1,5 @@
+Spring.watch_method = :polling
+
 %w[
   .ruby-version
   .rbenv-vars
