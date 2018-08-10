@@ -41,6 +41,7 @@ class Main extends Component {
                 return <Todo
                     login={login}
                     currentProject={currentProject}
+                    currentTodo={currentTodo}
                     selectProject={(id) => this.setState({currentProject: id})}
                     selectTodo={(id) => this.setState({mask: 'todo', currentTodo: id})}
                 />;
@@ -48,6 +49,7 @@ class Main extends Component {
                 return <User
                     login={login}
                     currentProject={currentProject}
+                    currentTodo={currentTodo}
                     selectProject={(id) => this.setState({currentProject: id})}
                     selectTodo={(id) => this.setState({mask: 'todo', currentTodo: id})}
                 />;
