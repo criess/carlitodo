@@ -1,1 +1,7 @@
 @import 'muicss/lib/sass/mui.scss'
+
+// some styles for grid (minimal!)
+.mui-row {
+    padding: 20px 0;
+    border: 2px silver solid;
+}
