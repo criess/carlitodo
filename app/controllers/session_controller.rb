@@ -30,10 +30,11 @@ class SessionController < ApplicationController
   def loggedin
     respond_to do |format|
       format.json {
+        has_valid_user = Integer === session.try(:[],"user").try(:[], "id")
         render json: {
-          action: session["user"]["id"] ? 'logged in' : 'logged out'
+          action: has_valid_user ? 'logged in' : 'logged out'
         },
-        status: session["user"]["id"] ? 200 : 403
+        status: has_valid_user  ? 200 : 403
       }
     end
   end

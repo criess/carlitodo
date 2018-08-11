@@ -9,6 +9,12 @@ class ProjectsController < ApplicationController
   # GET /projects.json
   def index
     @projects = Project.all
+    @projects = @projects.map do |project|
+      project = project.attributes
+      project["created_by"] = User.find(project["created_by"]).slice("email")
+      project["updated_by"] = User.find(project["updated_by"]).slice("email")
+      project
+    end
     respond_to do |format|
       format.json { render json: { projects: @projects } }
     end

@@ -10,49 +10,42 @@ class Main extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            login: null,
-            mask: 'login',
+            mask: 'wait',
             currentProject: null,
             currentTodo: null,
+            filter: {},
         }
+    }
+
+    componentDidMount() {
+        this.checkLogin();
     }
 
     render() {
         const {
-            login,
             mask,
-            currentProject,
-            currentTodo,
+            filter,
         } = this.state;
         switch (mask) {
             case 'login':
                 return this.wrapWithContainer(<Login
                     success={() => this.setState({mask: 'project'})}
-                    setLogin={(id) => this.setState({login: id})}
                 />);
             case 'project':
                 return this.wrapWithContainer(<Project
-                    login={login}
-                    currentProject={currentProject}
-                    selectProject={(id) => this.setState({currentProject: id})}
-                    selectTodo={(id) => this.setState({mask: 'todo', currentTodo: id})}
+                    navigator={(mask, filter = {}) => this.setState({mask: mask, filter: filter})}
+                    filter={filter}
                 />);
             case 'todo':
                 return this.wrapWithContainer(<Todo
-                    login={login}
-                    currentProject={currentProject}
-                    currentTodo={currentTodo}
-                    selectProject={(id) => this.setState({currentProject: id})}
-                    selectTodo={(id) => this.setState({mask: 'todo', currentTodo: id})}
+                    navigator={(mask, filter = {}) => this.setState({mask: mask, filter: filter})}
+                    filter={filter}
                 />);
             case 'user':
                 return this.wrapWithContainer(<User
-                    login={login}
-                    currentProject={currentProject}
-                    currentTodo={currentTodo}
-                    selectProject={(id) => this.setState({currentProject: id})}
-                    selectTodo={(id) => this.setState({mask: 'todo', currentTodo: id})}
                 />);
+            case 'wait':
+                return this.wrapWithContainer(<p>please wait preparing to start …</p>);
             default:
                 return this.wrapWithContainer(<span>error: unknown mask; value: `{mask}`</span>);
        }
@@ -62,6 +55,28 @@ class Main extends Component {
         return <Container>
                 {node}
             </Container>;
+    }
+
+    checkLogin() {
+        const cmp = this;
+        const xhr = new XMLHttpRequest();
+        xhr.responseType = 'json';
+        xhr.addEventListener('load',  function() {
+            if (xhr.response.action === 'logged in') {
+                cmp.setState({mask: 'project'});
+            } else {
+                cmp.setState({mask: 'login'});
+            }
+        });
+        xhr.addEventListener('error', function() {
+            cmp.setState({mask: 'login'});
+            console.log(xhr.response);
+        });
+        xhr.addEventListener('abort', function() {
+            console.log(xhr.response);
+        });
+        xhr.open('GET', '/loggedin', true);
+        xhr.send();
     }
 
 }

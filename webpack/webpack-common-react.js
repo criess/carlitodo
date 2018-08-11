@@ -80,7 +80,7 @@ module.exports = function (environment = "development") {
             // only load locals of moment js we define here
             // as momentjs loads its locals dynamicly, webpack will load all locals which increase file-size
             // this way we can prevent it, see: https://github.com/moment/moment/issues/1435#issuecomment-33106268
-            new webpack.ContextReplacementPlugin(/moment[\\\/]locale$/, /^\.\/(de)$/),
+            new webpack.ContextReplacementPlugin(/moment[\\\/]locale$/, /^\.\/(en)$/),
             new ExtractTextPlugin({ filename: '[name].css', disable: true }), // disabled here, as we need it in cssExport only!
         ],
     };

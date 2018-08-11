@@ -1,31 +1,34 @@
 class TodosController < ApplicationController
-  before_action :set_todo, only: [:show, :edit, :update, :destroy]
 
-  # GET /todos
+  before_action :set_todo, only: [:update, :destroy]
+
+  skip_before_action :verify_authenticity_token
+
+  has_auth
+
   # GET /todos.json
   def index
-    @todos = Todo.all
+    if params[:project_id]
+      @todos = Todo.where(:project_id => params[:project_id])
+    else
+      @todos = Todo.all
+    end
+    @todos = @todos.map do |todo|
+      todo = todo.attributes
+      todo["created_by"] = User.find(todo["created_by"]).slice("email")
+      todo["updated_by"] = User.find(todo["updated_by"]).slice("email")
+      todo
+    end
+    respond_to do |format|
+      format.json { render json: { todos: @todos } }
+    end
   end
 
-  # GET /todos/1
-  # GET /todos/1.json
-  def show
-  end
-
-  # GET /todos/new
-  def new
-    @todo = Todo.new
-  end
-
-  # GET /todos/1/edit
-  def edit
-  end
-
-  # POST /todos
   # POST /todos.json
   def create
     @todo = Todo.new(todo_params)
-
+    @todo.created_by = @user
+    @todo.updated_by = @user
     respond_to do |format|
       if @todo.save
         format.json { render :show, status: :created, location: @todo }
@@ -35,10 +38,10 @@ class TodosController < ApplicationController
     end
   end
 
-  # PATCH/PUT /todos/1
   # PATCH/PUT /todos/1.json
   def update
     respond_to do |format|
+      @todo.updated_by = @user
       if @todo.update(todo_params)
         format.json { render :show, status: :ok, location: @todo }
       else
@@ -47,7 +50,6 @@ class TodosController < ApplicationController
     end
   end
 
-  # DELETE /todos/1
   # DELETE /todos/1.json
   def destroy
     @todo.destroy
@@ -64,6 +66,6 @@ class TodosController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def todo_params
-      params.require(:todo).permit(:name, :created_by, :updated_by, :state, :due_date)
+      params.require(:todo).permit(:name, :state, :due_date, :project_id)
     end
 end

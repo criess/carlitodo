@@ -24,8 +24,8 @@ class Project extends Component {
 
     componentDidUpdate(prevProps, prevState) {
 
-        const { create } = this.state;
-        if (create != prevState.create) {
+        const { inEditing } = this.state;
+        if (inEditing != prevState.inEditing) {
             this.refreshProjects();
         }
 
@@ -33,13 +33,17 @@ class Project extends Component {
 
     render() {
         const {
-            create,
+            inEditing,
             id,
             name,
             projects,
         } = this.state;
 
-        return create ?
+        const {
+            navigator,
+        } = this.props;
+
+        return inEditing ?
             <Form>
                 <Input
                     onChange={(e) => this.setState({name: e.target.value})}
@@ -77,7 +81,10 @@ class Project extends Component {
                     <Row key={'project-' + i}>
                         <Col sm="8">
                             <span className="project-overview-field-name">
-                                {project.name}
+                                {project.name}<br/>
+                                <hr/>
+                                <i> created by {project.created_by.email}</i><br/>
+                                <i> updated by {project.updated_by.email}</i>
                             </span>
                         </Col>
                         <Col sm="4">
@@ -92,11 +99,37 @@ class Project extends Component {
                                     onClick={(e) => this.deleteProject(project.id)}
                                 >delete project
                                 </Button>
+                                <Button
+                                    color="accent"
+                                    onClick={(e) => navigator('todo', { project_id: project.id, project_name: project.name })}
+                                >todos of project
+                                </Button>
                             </span>
                         </Col>
                     </Row>
                 )}
             </Container>;
+    }
+
+    deleteProject(id) {
+        const cmp = this;
+        const xhr = new XMLHttpRequest();
+        xhr.responseType = 'json';
+        xhr.addEventListener('load',  function() {
+            cmp.refreshProjects();
+        });
+        xhr.addEventListener('error', function() {
+            console.log(xhr.response);
+        });
+        xhr.addEventListener('abort', function() {
+            console.log(xhr.response);
+        });
+        xhr.open(
+            'DELETE',
+            `/projects/${id}.json`,
+            true
+        );
+        xhr.send();
     }
 
     refreshProjects() {
