@@ -33,6 +33,7 @@ App has on the backend exactly:
   * User
   * Project
   * Todo
+  
 All of these elements have been generated through rails generators
 
 On the frontend there is:
